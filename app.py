@@ -45,8 +45,8 @@ app.config.update(
     MAIL_SERVER='smtp.gmail.com',
     MAIL_PORT=587,
     MAIL_USE_TLS=True,
-    MAIL_USERNAME='shrikrushnagandhewar@gmail.com',
-    MAIL_PASSWORD='ktnm ilby nmbk ewwz'  # Use env vars instead in production!
+    MAIL_USERNAME='your-email@gmail.com',
+    MAIL_PASSWORD='app key'  # Use env vars instead in production!
 )
 mail = Mail(app)
 
