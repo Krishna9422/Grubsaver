@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Post Food</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9f9f9;
+            padding: 30px;
+            color: #333;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        label {
+            font-weight: bold;
+            margin-top: 15px;
+            display: block;
+            color: #007BFF;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align:center;">Post Food</h2>
+  <form action="{{ url_for('donate_form') }}" method="POST" enctype="multipart/form-data">
+
+
+        <label for="title">Title:</label>
+        <input type="text" name="title" required>
+
+        <label for="quantity">Quantity (in kg):</label>
+        <input type="number" name="quantity" step="0.01" min="0.01" placeholder="e.g. 2.5" required>
+        <label for="price">Price (₹):</label>
+<input type="number" name="price" step="0.01" min="0" required>
+
+
+        <label for="location">Location:</label>
+<input type="text" name="location" id="location" required>
+<ul id="location-suggestions" style="
+    list-style:none;
+    padding:0;
+    margin:0;
+    border:1px solid #ccc;
+    max-height:150px;
+    overflow-y:auto;
+    position:absolute;
+    background:white;
+    width:calc(100% - 22px);
+    display:none;
+    z-index:1000;"></ul>
+
+        <label for="restaurant_name">Restaurant Name:</label>
+        <input type="text" name="restaurant_name" required>
+
+        <label for="restaurant_address">Restaurant Address:</label>
+        <div class="autocomplete-wrapper">
+            <input type="text" name="restaurant_address" id="restaurant_address" required autocomplete="off">
+            <ul id="address-suggestions" class="suggestions"></ul>
+        </div>
+
+        <label for="description">Description:</label>
+        <textarea name="description" rows="4" required></textarea>
+
+        <label for="image">Image:</label>
+        <input type="file" name="image" accept="image/*" required>
+<label>Expires After (in hours):</label><br>
+<input type="number" name="expire_after" min="1" placeholder="e.g. 6" required><br><br>
+
+        <button type="submit">Submit</button>
+        <script> function setupAutocomplete(inputId, suggestionsId) {
+    const input = document.getElementById(inputId);
+    const suggestionsBox = document.getElementById(suggestionsId);
+
+    input.addEventListener('input', () => {
+      const query = input.value.trim();
+      if (query.length < 3) {
+        suggestionsBox.style.display = 'none';
+        return;
+      }
+      fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&limit=5`)
+        .then(res => res.json())
+        .then(data => {
+          suggestionsBox.innerHTML = '';
+          if (!data.features || data.features.length === 0) {
+            suggestionsBox.style.display = 'none';
+            return;
+          }
+          data.features.forEach(feature => {
+            const li = document.createElement('li');
+            // Use display_name for fuller address or fallback to name + city
+            let text = feature.properties.name;
+            if (feature.properties.city) {
+              text += ', ' + feature.properties.city;
+            }
+            if (!text || text.trim() === '') {
+              text = feature.properties.display_name || '';
+            }
+            li.textContent = text;
+            li.addEventListener('click', () => {
+              input.value = li.textContent;
+              suggestionsBox.style.display = 'none';
+            });
+            suggestionsBox.appendChild(li);
+          });
+          suggestionsBox.style.display = 'block';
+        })
+        .catch(() => {
+          suggestionsBox.style.display = 'none';
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (e.target !== input && e.target.parentNode !== suggestionsBox) {
+        suggestionsBox.style.display = 'none';
+      }
+    });
+  }
+
+  // Initialize autocomplete for both fields
+  setupAutocomplete('location', 'location-suggestions');
+  setupAutocomplete('restaurant_address', 'address-suggestions');</script>
+    </form>
+</body>
+</html>

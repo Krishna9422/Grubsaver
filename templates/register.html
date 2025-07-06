@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registration Page</title>
+  <link rel="stylesheet" href="../static/css/register.css">
+  <script>
+    function validateForm() {
+      const form = document.forms["registerForm"];
+      const name = form["fullName"].value.trim();
+      const password = form["password"].value;
+      const mobile = form["mobile"].value.trim();
+      const userType = form["user_type"].value;
+      const buyerType = form["buyer_type"] ? form["buyer_type"].value : "";
+
+      const nameRegex = /^[A-Za-z\s]+$/;
+      const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      const mobileRegex = /^[789]\d{9}$/;
+
+      if (!nameRegex.test(name)) {
+        alert("Name should contain only letters and spaces.");
+        return false;
+      }
+
+      if (!passwordRegex.test(password)) {
+        alert("Password must be at least 8 characters long and include 1 capital letter, 1 number, and 1 special character.");
+        return false;
+      }
+
+      if (!mobileRegex.test(mobile)) {
+        alert("Mobile number must start with 7, 8, or 9 and be exactly 10 digits.");
+        return false;
+      }
+
+      if (userType === "buyer" && buyerType === "") {
+        alert("Please select buyer type.");
+        return false;
+      }
+
+      return true;
+    }
+
+    function toggleBuyerOptions() {
+      const userType = document.forms["registerForm"]["user_type"].value;
+      const buyerOptions = document.getElementById("buyerOptions");
+      const ngoDetails = document.getElementById("ngoDetails");
+      const biogasDetails = document.getElementById("biogasDetails");
+
+      if (userType === "buyer") {
+        buyerOptions.style.display = "block";
+      } else {
+        buyerOptions.style.display = "none";
+        ngoDetails.style.display = "none";
+        biogasDetails.style.display = "none";
+      }
+    }
+
+    function showBuyerDetails() {
+      const buyerType = document.forms["registerForm"]["buyer_type"].value;
+      const ngoDetails = document.getElementById("ngoDetails");
+      const biogasDetails = document.getElementById("biogasDetails");
+
+      ngoDetails.style.display = buyerType === "ngo" ? "block" : "none";
+      biogasDetails.style.display = buyerType === "biogas" ? "block" : "none";
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="left">
+      <img src="https://tse3.mm.bing.net/th/id/OIP.emsKoOeXAXtWt6rDzSKfbgHaHa?pid=ImgDet&w=184&h=184&c=7&dpr=1.3" alt="">
+      <h2>Join Us Today!</h2>
+      <p>Register below to become a GrubSaver member.</p>
+    </div>
+    <div class="right"><br><br><br><br><br>
+      <form name="registerForm" method="POST" action="/register" onsubmit="return validateForm();">
+        <div class="input-group"><br>
+          <br>
+          <h2>Register</h2><br>
+          <label>Full Name</label>
+          <input type="text" name="fullName" required placeholder="Full Name">
+        </div>
+        <div class="input-group">
+          <label>Email</label>
+          <input type="email" name="email" required placeholder="Email">
+        </div>
+        <div class="input-group">
+          <label>Mobile Number</label>
+          <input type="text" name="mobile" required placeholder="Mobile Number">
+        </div>
+        <div class="input-group">
+          <label>Username</label>
+          <input type="text" name="username" required placeholder="Username">
+        </div>
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" name="password" required placeholder="Password">
+        </div>
+        <div class="input-group">
+          <label>I am a:</label>
+          <select name="user_type" required onchange="toggleBuyerOptions()">
+            <option value="">-- Select Role --</option>
+            <option value="seller">Seller</option>
+            <option value="buyer">Buyer</option>
+            <option value="delivery">Delivery Boy</option> <!-- ✅ NEW -->
+              
+          </select>
+
+          </select>
+        </div>
+
+        <!-- Buyer Type Dropdown -->
+        <div class="input-group" id="buyerOptions" style="display:none;">
+          <label>Select Buyer Type</label>
+          <select name="buyer_type" onchange="showBuyerDetails()">
+            <option value="">-- Select Type --</option>
+            <option value="ngo">NGO</option>
+            <option value="biogas">Biogas Plant</option>
+          </select>
+        </div>
+
+        <!-- NGO Fields -->
+        <div class="input-group" id="ngoDetails" style="display:none;">
+          <label>NGO Name</label>
+          <input type="text" name="ngo_name" placeholder="Enter NGO Name">
+          <label>NGO Registration Number</label>
+          <input type="text" name="ngo_reg" placeholder="Enter Registration Number">
+        </div>
+
+        <!-- Biogas Fields -->
+        <div class="input-group" id="biogasDetails" style="display:none;">
+          <label>Biogas Plant Name</label>
+          <input type="text" name="biogas_name" placeholder="Enter Plant Name">
+          <label>Plant Capacity</label>
+          <input type="text" name="biogas_capacity" placeholder="Enter Capacity in Tons">
+        </div>
+
+        <button type="submit" class="register-btn">REGISTER</button>
+        <div class="bottom-links">
+          <span>Already have an account? <a href="/login">Login</a></span>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  </div>
+
+{% with messages = get_flashed_messages(category_filter=['register']) %}
+  {% if messages %}
+    <ul class="flash-messages">
+      {% for message in messages %}
+        <li style="color: red;">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+</body>
+</html>

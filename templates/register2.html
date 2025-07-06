@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registration Page</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+  <script>
+    function validateForm() {
+      const name = document.forms["registerForm"]["fullName"].value.trim();
+      const password = document.forms["registerForm"]["password"].value;
+      const mobile = document.forms["registerForm"]["mobile"].value.trim();
+
+      const nameRegex = /^[A-Za-z\s]+$/;
+      const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      const mobileRegex = /^[789]\d{9}$/;
+
+      if (!nameRegex.test(name)) {
+        alert("Name should contain only letters and spaces.");
+        return false;
+      }
+
+      if (!passwordRegex.test(password)) {
+        alert("Password must be at least 8 characters long and include 1 capital letter, 1 number, and 1 special character.");
+        return false;
+      }
+
+      if (!mobileRegex.test(mobile)) {
+        alert("Mobile number must start with 7, 8, or 9 and be exactly 10 digits.");
+        return false;
+      }
+
+      return true;
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="left">
+      <h2>Join Us Today!</h2>
+      <p>Register below to become a GrubSaver member.</p>
+    </div>
+    <div class="right"><br><br><br><br><br>
+      <form name="registerForm" method="POST" action="/register" onsubmit="return validateForm();">
+        <div class="input-group">
+          <h2>Register</h2>
+          <label>Full Name</label>
+          <input type="text" name="fullName" required placeholder="Full Name">
+        </div>
+        <div class="input-group">
+          <label>Email</label>
+          <input type="email" name="email" required placeholder="Email">
+        </div>
+        <div class="input-group">
+          <label>Mobile Number</label>
+          <input type="text" name="mobile" required placeholder="Mobile Number">
+        </div>
+        <div class="input-group">
+          <label>Username</label>
+          <input type="text" name="username" required placeholder="Username">
+        </div>
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" name="password" required placeholder="Password">
+        </div>
+        <div class="input-group">
+          <label>I am a:</label>
+          <select name="user_type" required>
+            <option value="">-- Select Role --</option>
+            <option value="seller">Seller</option>
+            <option value="buyer">Buyer</option>
+          </select>
+        </div>
+        <button type="submit" class="register-btn">REGISTER</button>
+        <div class="bottom-links">
+          <span>Already have an account? <a href="/login">Login</a></span>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class="flash-messages">
+        {% for message in messages %}
+          <li style="color: red;">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Orders Placed</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, #e8f5e9, #f1f8e9);
+      padding: 40px;
+      margin: 0;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: #e8f5e9;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2e7d32;
+      margin-bottom: 30px;
+    }
+
+    .order-card {
+      background: #f9fff9;
+      border: 1px solid #c8e6c9;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 50px;
+      box-shadow: 0 5px 12px rgba(0, 0, 0, 0.06);
+      text-align: center;
+      transition: 0.3s ease-in-out;
+    }
+
+    .order-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .order-card h3 {
+      color: #388e3c;
+      margin-bottom: 10px;
+    }
+
+    .order-card p {
+      margin: 4px 0;
+      font-size: 16px;
+      color: #444;
+    }
+
+    .order-card img {
+      width: 220px;
+      max-width: 90%;
+      border-radius: 8px;
+      margin: 12px 0;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-deliver {
+      background-color: #43a047;
+      border: none;
+      color: white;
+      padding: 10px 18px;
+      font-size: 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    .btn-deliver:hover {
+      background-color: #2e7d32;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>📦 Orders Placed for Your Donations</h2>
+
+  {% if orders %}
+    {% for order in orders %}
+      <div class="order-card">
+        <h3>{{ order.title }}</h3>
+        <p><strong>Quantity:</strong> {{ order.quantity }}</p>
+        <p><strong>Location:</strong> {{ order.location }}</p>
+        <p><strong>Buyer:</strong> {{ order.buyer }}</p>
+        <p><strong>Ordered At:</strong> {{ order.ordered_at }}</p>
+        <p><strong>Description:</strong> {{ order.description }}</p>
+
+        {% if order.image_filename %}
+          <img src="{{ url_for('static', filename='uploads/' ~ order.image_filename) }}" alt="Donation Image">
+        {% endif %}
+
+        {% if order.status != 'delivered' %}
+          <form action="{{ url_for('send_delivery_otp', donation_id=order._id) }}" method="post">
+            <button type="submit" class="btn-deliver">Send Delivery OTP</button>
+          </form>
+        {% else %}
+          <p style="color: green; font-weight: bold; margin-top: 12px;">✅ Delivered</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+  {% else %}
+    <p style="text-align: center;">No orders placed yet.</p>
+  {% endif %}
+
+</body>
+</html>

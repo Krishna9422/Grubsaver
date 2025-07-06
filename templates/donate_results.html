@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Donation Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+   
+</head>
+<body>
+    <div class="container">
+        <h2>Donations Found</h2>
+        <div class="card-container">
+            {% for card in cards %}
+                < class="card">
+                    <h3>{{ card.title }}</h3>
+                    <p><strong>Quantity (kg):</strong> {{ card.quantity }}</p>
+                    <p><strong>Location:</strong> {{ card.location }}</p>
+                    <p><strong>Description:</strong> {{ card.description }}</p>
+                     <p>{{ card.description }}</p>
+            {% if card.image_path %}
+                <img src="{{ url_for('static', filename=card.image_path) }}" width="250">
+            {% endif %}
+            <button class="order-btn">Order</button>
+            
+            {% else %}
+                <p>No donations found for this location.</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

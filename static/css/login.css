@@ -1,0 +1,214 @@
+
+      body {
+        font-family: "Inter", sans-serif;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem;
+        color: #3a4a35;
+        position: relative;
+        overflow: hidden;
+        background: #f0f8f5;
+      } /* Large background image related to reduced food waste */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-image: url("https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1920&q=80");
+        background-size: cover;
+        background-position: center;
+        filter: brightness(0.4) saturate(0.7);
+        z-index: -1;
+        pointer-events: none;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        background: rgba(255 255 255 / 0.85);
+        border-radius: 1rem;
+        overflow: hidden;
+        max-width: 900px;
+        width: 100%;
+        box-shadow: 0 8px 24px rgb(0 0 0 / 0.15);
+        backdrop-filter: saturate(180%) blur(12px);
+        position: relative;
+        z-index: 1;
+      }
+      @media (min-width: 768px) {
+        .container {
+          flex-direction: row;
+        }
+      }
+      .left,
+      .right {
+        padding: 3rem 2.5rem;
+      }
+      .left {
+        background: #e6f0e6;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-right: 3px solid #a3c48d;
+        align-items: center;
+        text-align: center;
+        color: #3a4a35;
+      }
+      .left h2 {
+        font-size: 2.25rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: #6ca06c; /* fresh green */
+      }
+      .left p {
+        font-size: 1rem;
+        line-height: 1.5;
+        max-width: 320px;
+        margin-bottom: 1.5rem;
+        color: #557a55;
+      }
+      .left img {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+        filter: drop-shadow(0 0 3px #6ca06c);
+      }
+      .right {
+        flex: 1;
+        background: #f9fdf9;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        color: #3a4a35;
+      }
+      .right h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: #6ca06c;
+      }
+      .right p {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+        color: #557a55;
+      }
+      .input-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1.5rem;
+      }
+      .input-group label {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #3a4a35;
+      }
+      .input-group input {
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        border: 2px solid #a3c48d;
+        background: #e6f0e6;
+        color: #3a4a35;
+        font-size: 1rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+      .input-group input::placeholder {
+        color: #8aa88a;
+      }
+      .input-group input:focus {
+        outline: none;
+        border-color: #6ca06c;
+        box-shadow: 0 0 8px #6ca06c;
+        background: #d9e8d9;
+      }
+      .remember {
+        display: flex;
+        align-items: center;
+        margin-bottom: 2rem;
+        color: #557a55;
+        font-weight: 500;
+        user-select: none;
+      }
+      .remember input[type="checkbox"] {
+        margin-right: 0.75rem;
+        width: 1.25rem;
+        height: 1.25rem;
+        accent-color: #6ca06c;
+        cursor: pointer;
+        transition: accent-color 0.3s ease;
+      }
+      .remember input[type="checkbox"]:hover {
+        accent-color: #8fc78f;
+      }
+      .login-btn {
+        background: #6ca06c;
+        color: #f9fdf9;
+        font-weight: 700;
+        padding: 0.75rem 0;
+        border-radius: 0.75rem;
+        border: none;
+        cursor: pointer;
+        font-size: 1.125rem;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        width: 100%;
+        user-select: none;
+        box-shadow: 0 0 8px #6ca06c;
+      }
+      .login-btn:hover {
+        background: #8fc78f;
+        box-shadow: 0 0 16px #8fc78f;
+      }
+      .bottom-links {
+        margin-top: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.875rem;
+        color: #8aa88a;
+      }
+      .bottom-links a {
+        color: #6ca06c;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease;
+      }
+.bottom-links a:hover {
+  color: #8fc78f;
+  text-decoration: underline;
+}
+
+/* Flash messages */
+.flash-messages {
+  max-width: 900px;
+  margin: 1rem auto 0;
+  padding: 1rem 1.5rem;
+  background-color: #d9e8d9;
+  border: 2px solid #6ca06c;
+  border-radius: 0.75rem;
+  color: #3a4a35;
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+  box-shadow: 0 0 8px #6ca06c;
+  user-select: none;
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+   .logo {
+        font-weight: 700;
+        font-size: clamp(1.75rem, 3vw, 2rem);
+        color: #3a4a35;
+        text-align: center;
+        margin-bottom: 1.5rem;
+        user-select: none;
+      }
+      .logo span {
+        color: #6ca06c;
+      }

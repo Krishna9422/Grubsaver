@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Verify Biogas Delivery OTP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h2>🔐 Enter OTP to Confirm Biogas Delivery</h2>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    <form method="POST">
+        <label>Enter OTP:</label>
+        <input type="text" name="otp" required>
+        <button type="submit">Verify</button>
+    </form>
+</body>
+</html>

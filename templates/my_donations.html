@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Donations</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9f9f9;
+            padding: 30px;
+        }
+        .donation-list {
+            display: flex;
+            
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+        }
+        .donation-card {
+            flex: 0 0 calc(25% - 25px);
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .donation-card img {
+            width: 250px;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+        .delete-button {
+            width:322px;
+            margin-top: 12px;
+            padding: 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+        .expired-yes {
+            color: white;
+            background-color: #dc3545;
+            padding: 5px 10px;
+            border-radius: 6px;
+        }
+        .expired-no {
+            color: white;
+            background-color: #28a745;
+            padding: 5px 10px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align: center;">My Donations (Active & Ordered)</h2>
+
+    <div class="donation-list">
+        {% for d in donations %}
+            <div class="donation-card">
+                <h3>{{ d.title }}</h3>
+                <img src="{{ d.image_path }}" alt="Donation Image">
+                <p><strong>Quantity:</strong> {{ d.quantity }} kg</p>
+                <p><strong>Location:</strong> {{ d.location }}</p>
+                <p><strong>Restaurant:</strong> {{ d.restaurant_name }}</p>
+                <p><strong>Address:</strong> {{ d.restaurant_address }}</p>
+                <p><strong>Description:</strong> {{ d.description }}</p>
+                <p><strong>Status:</strong>
+                    <span class="{% if d.expired_str.startswith('Yes') or d.expired_str == 'Delivered' %}expired-yes{% else %}expired-no{% endif %}">
+                        {{ d.expired_str }}
+                    </span>
+                </p>
+                <p><strong>Posted:</strong> <span class="time-original">{{ d.created_at_str }}</span></p>
+{% if d.expiry_time_str != 'N/A' %}
+    <p><strong>Expires:</strong> <span class="expiry-original">{{ d.expiry_time_str }}</span></p>
+{% endif %}
+
+                {% if d.type == 'active' %}
+                    <form action="{{ url_for('delete_donation', donation_id=d._id) }}" method="POST" onsubmit="return confirm('Delete this donation?');">
+                        <button type="submit" class="delete-button">🗑️ Delete</button>
+                    </form>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    function addFiveThirty(originalStr) {
+      if (!originalStr) return originalStr;
+      // Parse the original date string as local time (England time)
+      // Format expected: "YYYY-MM-DD HH:mm:ss"
+      // Create a date object in local time (browser assumes local timezone; we want to treat as England time)
+      // Safer to parse as UTC by appending 'Z' and then add 5:30
+      let dt = new Date(originalStr + "Z"); // treat as UTC
+
+      if (isNaN(dt)) return originalStr;
+
+      // Add 5 hours 30 minutes = 19800 seconds = 19800000 ms
+      dt = new Date(dt.getTime() + (5*60 + 30)*60*1000);
+
+      // Format back to "YYYY-MM-DD HH:mm:ss"
+      const pad = (n) => n.toString().padStart(2, '0');
+
+      const year = dt.getUTCFullYear();
+      const month = pad(dt.getUTCMonth() + 1);
+      const day = pad(dt.getUTCDate());
+      const hours = pad(dt.getUTCHours());
+      const minutes = pad(dt.getUTCMinutes());
+      const seconds = pad(dt.getUTCSeconds());
+
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    }
+
+    document.querySelectorAll('.time-original').forEach(elem => {
+      elem.textContent = addFiveThirty(elem.textContent.trim());
+    });
+
+    document.querySelectorAll('.expiry-original').forEach(elem => {
+      elem.textContent = addFiveThirty(elem.textContent.trim());
+    });
+  });
+</script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,495 @@
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-padding-top: 2rem;
+    scroll-behavior: smooth;
+    list-style: none;
+    text-decoration: none;
+    font-family: "Poppins",sans-serif; 
+}
+/* General Styles */
+body {
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #c0afaf;
+}
+
+
+:root{
+    --main-color: #fe5b3d;
+    --secondary-color: #ffac38;
+    --text-color:#444;
+    --gradient:linear-gradient(fe5b3d,ffac38);
+    
+}
+html::-webkit-scrollbar {
+    width: 0.5rem;
+}
+html::-webkit-scrollbar-track {
+    background: transparent;
+}
+html::-webkit-scrollbar-thumb {
+    background: var(--main-color);
+    border-radius: 5rem;
+}
+     section{
+        padding: 50px 100px;
+
+        
+
+     }
+     header{
+        position: fixed;
+        width: 100%;
+        top:0;
+        right: 0%;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #5f6573;
+        padding: 15px 100px;
+
+     }
+     .logo img{
+        width: 40px;
+     }
+     .navbar{
+        display: flex;
+
+     }
+     .navbar li{
+        position: relative;
+        margin-left: 0;
+     }
+     .navbar a{
+        font-size: 1rem;
+        padding: 10px 20px;
+        color: var(--text-color);
+        font-weight: 500;
+
+    }
+    .navbar li a {
+        color: black; /* Default color */
+        text-decoration: none; /* Remove underline */
+        padding: 10px; /* Add some padding */
+    }
+    
+    .navbar li a:hover {
+        color: white; /* Change color on hover */
+        background-color: #fe5b3d; /* Change background on hover */
+    }
+    .navbar a::after{
+        content: '';
+        width: 100%;
+        height: 3px;
+        background: var(--gradient);
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        transition: 0.5s;
+    }
+    .navbar a:hover::after{
+        width: 100px;
+
+    }
+    /* CSS for the active class */
+.navbar.active {
+    display: flex; /* Show the navbar */
+    flex-direction: column; /* Stack items vertically */
+    position: absolute; /* Position it absolutely */
+    top: 60px; /* Adjust based on your header height */
+    left: 0;
+    right: 0;
+    background-color: #fff; /* Background color */
+    z-index: 1000; /* Ensure it appears above other content */
+}
+
+.navbar li {
+    margin: 10px 0; /* Space between items in mobile view */
+}
+.book-btn {
+    display: inline-block;
+    background-color: #007BFF; /* Button background color */
+    color: white; 
+    padding: 10px 20px;
+    border-radius: 100px; 
+    text-decoration: none; 
+    transition: background-color 0.3s; 
+}
+.book-btn:hover {
+    background-color: #0056b3;
+}
+    #menu-icon{
+        font-size: 24px;
+        cursor: pointer;
+        z-index: 10001;
+        display: none;
+    }
+    .header-btn a{
+        padding: 10px 20px;
+        color:var(--text-color);
+        font-weight: 500;
+    }
+
+    .header-btn .sign-in,.header-btn .sign-up{
+        background-color: #474fa0;
+        color: white;
+        border-radius: 0.5rem;
+    }
+    .header-btn .sign-up{
+        background-color: #474fa0;
+        color: white;
+        border-radius: 0.5rem;
+    }
+    .header-btn .sign-in:hover{
+        background-color: #b25646;}
+    .header-btn .sign-up:hover{
+        background-color: #df7b69;}
+        
+   .home{
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    background: url(img/demo.jpeg);
+    background-repeat: no-repeat;
+    background-position:    center right;
+    background-size: cover;
+    display: grid;
+    align-items: center;
+    grid-template-columns: repeat(2,1fr);
+   }  
+    .text h1{
+    font-size: 3rem;  /*1rem=16px*/
+    letter-spacing: 2px; 
+    }
+    .text span{
+        color: #fe5b3d;
+    }
+    .text p{
+    margin: 00.5rem 0 2rem ;
+    color :black;
+    border-color: #ffffff;
+    }
+    .app-stores{
+    display: flex;
+    }
+    .app-stores img{
+        width: 200px;
+        margin-right: 2rem;
+        cursor: pointer;
+    }
+    .form-container form{
+        display: flex ;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1rem;
+        position: absolute;
+        bottom: 4rem;
+        left: 100px;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 0.5rem;
+    }
+    .input-box{
+        flex: 1 1 7rem;
+        display: flex;
+        flex-direction: column;
+        
+    }
+    .input-box span{
+        font-weight: 500;
+    }
+
+    .input-box   input{
+        padding: 7px;
+        outline: none;
+        border: none;
+        background: #eeeff1;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        }
+    .form-container form .btn{
+        flex: 1 1 7rem;
+        padding: 10px 30px;
+        border: none;
+        border-radius: 0.5rem;
+        background-color: #474fa0;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 500 ;
+    }
+    .form-container form .btn:hover{
+        background-color: #fe5b3d;
+    }
+.heading{
+    text-align: center;
+}
+.heading span{
+    font-weight: 500;
+   text-transform:uppercase ;
+}
+.heading h1{
+    font-size: 2rem;
+
+}
+
+header {
+    background-color: #71af85;
+    padding: 15px 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo img {
+    height: 50px;
+}
+
+.navbar {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.navbar li {
+    position: relative;
+}
+
+.navbar a {
+    text-decoration: none;
+    font-size: 1rem;
+    color: #333;
+    font-weight: 500;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar a:hover {
+    background-color: #fe5b3d;
+    color: white;
+}
+
+.navbar a.active {
+    background-color: #fe5b3d;
+    color: white;
+}
+
+.header-btn {
+    display: flex;
+    gap: 15px;
+}
+
+.header-btn a {
+    text-decoration: none;
+    font-weight: 500;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.header-btn .sign-up {
+    background-color: #007BFF;
+    color: white;
+}
+
+.header-btn .sign-up:hover {
+    background-color: #0056b3;
+}
+
+.header-btn .sign-in {
+    background-color: transparent;
+    color: #333;
+    border: 1px solid #333;
+}
+
+.header-btn .sign-in:hover {
+    background-color: #333;
+    color: white;
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 50px 100px;
+    /* background: url('https://static.vecteezy.com/system/resources/thumbnails/043/028/673/small_2x/reduce-food-waste-poster-man-throwing-leftovers-in-compost-bin-illustration-of-flat-character-and-planet-earth-reuse-garbage-icons-sustainable-eating-composition-ecology-awareness-vector.jp') no-repeat center center/cover; */
+    color: white;
+    min-height: 100vh;
+    text-align: left;
+}
+
+.hero .text {
+    max-width: 200px;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    line-height: 1.8;
+}
+
+.hero .cta-buttons a {
+    text-decoration: none;
+    font-weight: 500;
+    padding: 15px 30px;
+    border-radius: 5px;
+    margin-right: 15px;
+    transition: all 0.3s ease;
+}
+
+.hero .cta-buttons .book-now {
+    background-color: #fe5b3d;
+    color: white;
+}
+
+.hero .cta-buttons .book-now:hover {
+    background-color: #e64920;
+}
+
+.hero .cta-buttons .learn-more {
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+}
+
+.hero .cta-buttons .learn-more:hover {
+    background-color: white;
+    color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 50px 20px;
+    }
+
+    .hero .text {
+        max-width: 100%;
+    }
+}
+.ride-container{
+    display:grid;
+    align-items: center;
+    grid-template-columns: repeat(auto-fit,minmax(250px,auto));
+    gap: 1rem;
+    margin-top: 2rem;
+}
+.ride-container .box{
+    text-align: center;
+    padding: 20px;
+}
+.ride-container .box .bx{
+    font-size: 34px;
+    padding: 10px;
+    background: #eeeff1;
+    border-radius: 0.5rem;
+    color: var(--main-color);
+}
+.ride-container .box h2{
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin: 1.4rem 0 0.5rem;
+}
+.ride-container .box :hover{
+    background: var(--gradient);
+    color: black;
+}
+.services-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, auto)); 
+   gap: 1rem;
+    margin-top: 2rem;
+}
+.heading span{
+    color: var(--gradient)
+}
+
+.navbar-brand a {
+    font-weight: 700;
+    font-size: 24px;
+    color: white;
+  }
+  
+  .navbar-brand a span {
+    color: var(--secondary-color);
+  }
+  
+
+/*}
+
+.services-container  .box  {
+    padding: 10px;
+    border-radius: 1rem;
+    box-shadow: 1px 4px 41px rgba(0, 0, 0, 0.1); 
+    background-color: #ffffff; 
+    transition: transform 0.3s, box-shadow 0.3s; 
+}
+.services-container .box .box-img{
+    width: 100%;
+    height: 200px;
+
+}
+.services-container .box .box-img img{
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem;
+    object-fit: cover;
+    object-position: center;
+}
+.services-container .box:hover {
+    transform: translateY(-5px); 
+    box-shadow: 1px 8px 20px rgba(0, 0, 0, 0.2); 
+}
+.services-container .box p{
+    padding: 0 10px;
+    border: 1px solid var(--text-color);
+    width: 58px;
+    border-radius: 0.5rem;
+    margin: 1rem 0 1rem;
+}
+.services-container .box h3{
+    font-weight: 500;
+}
+.services-container .box h2{
+    font-size: 1.1rem;
+    font-weight: 600;
+    color:var(--main-color);
+}
+.services-container .box .btn{
+    display: flex;
+    
+    background:#474fa0;
+    color: #fff;
+    padding: 10px;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+.services-container .box .btn:hover{
+    color: #fff
+;*/
+
+
+

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>seller page </title>
+    <link rel="stylesheet" href="../static/css/seller.css">
+    <style>
+       .hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 60px 10%;
+    flex-wrap: wrap; /* Makes it responsive on smaller screens */
+    background-color: #f9f9f9;
+}
+
+.hero .text {
+    flex: 1 1 500px;
+    max-width: 600px;
+}
+
+.hero .text h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.hero .text p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.cta-buttons .book-now {
+    padding: 12px 24px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.hero-image {
+    flex: 1 1 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.hero-image img {
+    width: 550px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+
+    </style>
+   
+     
+
+ 
+</head>
+
+<body>
+    <header>
+        <div class="navbar-brand">
+            <a href="/">Grub<span>Saver</span></a>
+          </div>
+        <!-- <a href="#" class="logo"><img src="img/logo-search-grid-2x.png" alt="img"></a> -->
+        <ul class="navbar">
+            <li><a href="index.html" class="active">Home</a></li>
+            <!-- <li><a href="ride.html">How it Works </a></li> -->
+            <!-- <li><a href="post_food.html">Post Food Waste</a></li> -->
+            <!-- <li><a href="about.html">Find buyer</a></li> -->
+            <!-- <li><a href="reviews.php">Feedback</a></li> -->
+            <li><a href="reviews.php">Any Need</a></li>
+            <!-- <li><a href="reviews.php">Contact Us</a></li> -->
+            <li><a href="{{ url_for('donate_form') }}">Post Food</a></li>
+            <li><a href="{{ url_for('my_donations') }}">My Donations</a></li>
+            <li><a href="{{ url_for('seller_orders') }}">Order</a></li>
+            <li><a href="{{ url_for('biogas_orders_view') }}">My Biogas Orders</a></li>
+            <li><li><a href="{{ url_for('logout') }}">Logout</a></li></li>
+
+          
+
+        </ul>
+        
+    </header>
+    
+    <section class="hero">
+        <div class="text">
+            <h1>Sell your extra food, reduce waste, and help feed the planet!</h1>
+            <p>Sell your extra or leftover food with GrabSaver and help reduce waste 🌱♻️.
+By sharing what you don’t need, you contribute to a healthier planet and a stronger community 🌍💚.</p>
+            <div class="cta-buttons">
+                <a href="{{ url_for('donate_form') }}" class="book-now">Post Food</a>
+                <!-- <a href="about.html" class="learn-more">Learn More</a> -->
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://th.bing.com/th/id/OIP.5dQ9vHyedmBHn8zYmqRipgHaE8?w=272&h=181&c=7&r=0&o=5&dpr=1.3&pid=1.7">
+        </div>
+    </section>
+</body>
+</html>

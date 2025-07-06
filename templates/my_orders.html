@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Orders</title>
+    <style>
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9f9f9;
+    padding: 30px;
+    margin: 0;
+}
+
+h2 {
+    text-align: center;
+    color: #ff0800;
+    margin-bottom: 40px;
+}
+
+.order-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.order-card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    width: 320px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.order-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.order-card h3 {
+    margin: 0 0 10px;
+    font-size: 1.2em;
+    color: #333;
+}
+
+.order-card p {
+    margin: 5px 0;
+    color: #333;
+    font-size: 14px;
+}
+
+.status {
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-top: 5px;
+    font-size: 13px;
+}
+
+.delivered {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+/* Responsive behavior */
+@media (max-width: 992px) {
+    .order-card {
+        width: calc(50% - 30px);
+    }
+}
+
+@media (max-width: 600px) {
+    .order-card {
+        width: 100%;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <h2>🧾 My Orders</h2>
+
+    {% if orders %}
+    <div class="order-list">
+        {% for order in orders %}
+            <div class="order-card">
+                <h3>{{ order.title }}</h3>
+                <p><strong>Quantity:</strong> {{ order.quantity }}</p>
+                <p><strong>Location:</strong> {{ order.location }}</p>
+                <p><strong>Restaurant:</strong> {{ order.restaurant_name if order.restaurant_name else 'N/A' }}</p>
+                <p><strong>Ordered From Seller:</strong> {{ order.seller }}</p>
+                <p><strong>Ordered At:</strong> {{ order.ordered_at }}</p>
+                <p><strong>Status:</strong> 
+    {% if order.status == 'delivered' %}
+        <span style="color: green;">Received ✅</span>
+    {% else %}
+        <span style="color: orange;">Pending ⏳</span>
+    {% endif %}
+</p>
+
+                <p><strong>Description:</strong> {{ order.description }}</p>
+                <p><strong>Price:</strong> {{ order.price }}</p>
+                {% if order.image_filename %}
+                    <img src="{{ url_for('static', filename='uploads/' ~ order.image_filename) }}" alt="Donation Image">
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p style="text-align: center;">You have not placed any orders yet.</p>
+    {% endif %}
+</body>
+</html>
+   <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // Function to convert UTC datetime string to IST formatted string
+        function convertUtcToIst(originalStr) {
+          if (!originalStr) return '';
+          const dtUtc = new Date(originalStr + 'Z'); // Append Z to treat as UTC
+          if (isNaN(dtUtc)) return originalStr; // fallback if invalid date
+
+          const options = {
+            year: 'numeric', month: '2-digit', day: '2-digit',
+            hour: '2-digit', minute: '2-digit', second: '2-digit',
+            hour12: false,
+            timeZone: 'Asia/Kolkata'
+          };
+          return dtUtc.toLocaleString('en-GB', options).replace(',', '');
+        }
+
+        // Convert Posted On times
+        document.querySelectorAll('.time-original').forEach(function(elem) {
+          const originalStr = elem.textContent.trim();
+          const istString = convertUtcToIst(originalStr);
+          elem.nextElementSibling.textContent = istString;
+        });
+
+        // Convert Expiry times
+        document.querySelectorAll('.expiry-original').forEach(function(elem) {
+          const originalStr = elem.textContent.trim();
+          const istString = convertUtcToIst(originalStr);
+          elem.nextElementSibling.textContent = istString;
+        });
+      });
+    </script>

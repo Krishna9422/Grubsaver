@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit User - GrubSaver</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f2f2f2;
+            padding: 30px;
+        }
+        form {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            max-width: 500px;
+            margin: auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #007BFF;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 20px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <form method="POST">
+        <h2>✏️ Edit User: {{ user.username }}</h2>
+        <label>Email:</label>
+        <input type="email" name="email" value="{{ user.email }}" required>
+
+        <label>Mobile:</label>
+        <input type="text" name="mobile" value="{{ user.mobile }}" required>
+
+        <label>Buyer Type:</label>
+        <select name="buyer_type">
+            <option value="">-- Select Type --</option>
+            <option value="ngo" {% if user.buyer_type == 'NGO' %}selected{% endif %}>NGO</option>
+            <option value="biogas" {% if user.buyer_type == 'Biogas' %}selected{% endif %}>Biogas Plant</option>
+        </select>
+
+        <button type="submit">Update Info</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Find Food Donations</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* [same styles you posted] */
+        /* Paste all your card CSS here (unchanged) */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Find Nearby Food Donations</h1>
+        <input type="text" id="searchBox" placeholder="Search by location or restaurant..." onkeyup="filterCards()">
+
+
+        <div id="cardContainer">
+            {% for card in cards %}
+            <div class="card" data-expired="{{ 'yes' if card.expired else 'no' }}"></div>
+            <!-- <div class="card"> -->
+                <h3>{{ card.title }}</h3>
+                <p><strong>Restaurant:</strong> {{ card.restaurant_name }}</p>
+                <p><strong>Location:</strong> {{ card.location }}</p>
+                <p>{{ card.description }}</p>
+                {% if card.image_path %}
+                    <img src="{{ url_for('static', filename=card.image_path) }}" width="250">
+                {% endif %}
+                <button class="order-btn">Order</button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('#cardContainer .card');
+
+        // Hide expired cards on page load
+        cards.forEach(card => {
+            if (card.dataset.expired === 'yes') {
+                card.style.display = 'none';
+            }
+        });
+
+        window.filterCards = function() {
+            const input = document.getElementById('searchBox').value.toLowerCase();
+
+            cards.forEach(card => {
+                if (card.dataset.expired === 'yes') {
+                    card.style.display = 'none';
+                    return;
+                }
+                const paragraphs = card.querySelectorAll('p');
+                const restaurant = paragraphs[0]?.textContent.toLowerCase() || '';
+                const location = paragraphs[1]?.textContent.toLowerCase() || '';
+
+                if (restaurant.includes(input) || location.includes(input)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        };
+    });
+</script>
+  
+    <!-- ript>
+        function filterCards() {
+            const input = document.getElementById('searchBox').value.toLowerCase();
+            const cards = document.querySelectorAll('#cardContainer .card');
+
+            cards.forEach(card => {
+                const restaurant = card.querySelector('p strong')?.nextSibling?.textContent?.toLowerCase() || '';
+                const location = card.querySelectorAll('p')[1]?.textContent?.toLowerCase() || '';
+                if (restaurant.includes(input) || location.includes(input)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script><sc -->
+</body>
+</html>

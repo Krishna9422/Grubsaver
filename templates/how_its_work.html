@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Website Roadmap - Waste</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background-color: #f0fff0;
+      color: #2e7d32;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1b5e20;
+      margin-bottom: 3rem;
+    }
+
+    .roadmap {
+      position: relative;
+      max-width: 1000px;
+      margin: auto;
+      padding: 2rem 0;
+    }
+
+    .milestone {
+      display: flex;
+      align-items: center;
+      position: relative;
+      margin-bottom: 3rem;
+    }
+
+    .milestone:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .content {
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      width: 45%;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .milestone:hover .content {
+      transform: scale(1.03);
+    }
+
+    .step-1 { background: #c8e6c9; }
+    .step-2 { background: #ffe082; }
+    .step-3 { background: #f8bbd0; }
+    .step-4 { background: #b2dfdb; }
+    .step-5 { background: #d1c4e9; }
+    .step-6 { background: #ffccbc; }
+    .step-7 { background: #e0e0e0; }
+
+    .icon {
+      background: #2e7d32;
+      color: white;
+      font-size: 1.5rem;
+      padding: 15px;
+      border-radius: 50%;
+      margin: 0 2rem;
+      z-index: 1;
+    }
+
+    .line {
+      position: absolute;
+      top: 35px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 100%;
+      background: repeating-linear-gradient(
+        to bottom,
+        #4caf50,
+        #4caf50 10px,
+        transparent 10px,
+        transparent 20px
+      );
+      z-index: 0;
+    }
+
+    @media screen and (max-width: 768px) {
+      .milestone {
+        flex-direction: column !important;
+        align-items: flex-start;
+      }
+
+      .content {
+        width: 90%;
+        margin-left: 2.5rem;
+      }
+
+      .line {
+        left: 25px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Website Journey Roadmap</h1>
+
+  <div class="roadmap">
+    <div class="line"></div>
+
+    <!-- Step 1 -->
+    <div class="milestone">
+      <div class="icon">📝</div>
+      <div class="content step-1">
+        <h3>Register</h3>
+        <p>The user signs up as a <strong>Seller</strong> (like restaurants or individuals with surplus food) or as a <strong>Buyer</strong> (like NGOs, biogas plants, or households). During registration, details such as name, category, email, and password are securely stored in MongoDB.</p>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="milestone">
+      <div class="icon">🔐</div>
+      <div class="content step-2">
+        <h3>Login</h3>
+        <p>The registered user logs in by selecting their role: Seller, Buyer, or Admin. Flask handles authentication and redirects users to their respective dashboards. Admin has control over user verification and monitoring activity.</p>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="milestone">
+      <div class="icon">🍱</div>
+      <div class="content step-3">
+        <h3>Post Food</h3>
+        <p>Sellers can access a food posting form where they enter details such as food type (veg/non-veg), quantity, restaurant/vendor name, and location. These entries are stored in MongoDB and displayed to buyers based on matching location or category.</p>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="milestone">
+      <div class="icon">📍</div>
+      <div class="content step-4">
+        <h3>Browse Listings</h3>
+        <p>Buyers (NGOs, plants, households) can enter a location to browse posted food cards. Flask queries MongoDB to fetch all matching posts and display them with information like food type, location, and upload time. This helps buyers act quickly before food expires.</p>
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="milestone">
+      <div class="icon">✅</div>
+      <div class="content step-5">
+        <h3>Place Order</h3>
+        <p>If a buyer is interested in a food post, they can accept the offer. The system records this action and notifies the seller. Flask updates the post status and optionally logs feedback or interest from multiple buyers for analytics.</p>
+      </div>
+    </div>
+
+    <!-- Step 6 -->
+    <div class="milestone">
+      <div class="icon">🚚</div>
+      <div class="content step-6">
+        <h3>Collect or Deliver</h3>
+        <p>Once a post is accepted, the food is either picked up by the buyer (e.g., NGO team or a biogas collector) or delivered if logistics are managed. The collection status is updated in the backend, and a confirmation is stored to mark the cycle complete.</p>
+      </div>
+    </div>
+
+    <!-- Optional Step 7: Admin Panel -->
+    <div class="milestone">
+      <div class="icon">🛠️</div>
+      <div class="content step-7">
+        <h3>Admin Panel</h3>
+        <p>The admin monitors all activity, approves suspicious posts, and manages user access. They can remove outdated posts, verify NGOs or sellers, and check data analytics such as number of posts, orders placed, and top contributing users.</p>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

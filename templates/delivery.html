@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Undelivered Orders</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f0f0;
+            padding: 30px;
+        }
+        .order-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .order-card h3 {
+            margin-top: 0;
+        }
+        .label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align:center;">🚚 Undelivered Orders</h2>
+
+    {% if orders %}
+        {% for o in orders %}
+            <div class="order-card">
+                <h3>{{ o.title }}</h3>
+                <p><span class="label">Quantity:</span> {{ o.quantity }} kg</p>
+                <p><span class="label">Ordered By (Buyer):</span> {{ o.buyer }}</p>
+                <p><span class="label">Buyer's Address:</span> {{ o.buyer_address }}</p>
+                <p><span class="label">Seller:</span> {{ o.seller }}</p>
+                <p><span class="label">Ordered At:</span> {{ o.ordered_at }}</p>
+                <p><span class="label">Status:</span> <span style="color: orange;">Pending</span></p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p style="text-align:center;">All orders have been delivered 🎉</p>
+    {% endif %}
+</body>
+</html>

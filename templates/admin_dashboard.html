@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard - GrubSaver</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+            color: #333;
+        }
+        h2 {
+            text-align: center;
+            color: orangered;
+        }
+        .section {
+            margin: 30px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 1000px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background: #4ab665;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        .subtitle {
+            color: #444;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>GrubSaver Admin Dashboard</h2>
+
+    <!-- 📧 Newsletter Subscribers -->
+    <div class="section">
+        <h3 class="subtitle">📧 Newsletter Subscribers</h3>
+        {% if subscriptions %}
+            <table>
+                <tr><th>Email</th></tr>
+                {% for s in subscriptions %}
+                    <tr><td>{{ s.email }}</td></tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No subscribers yet.</p>
+        {% endif %}
+    </div>
+
+  <!-- 👤 Buyers List -->
+<div class="section">
+  <h3 class="subtitle">👥 Buyers</h3>
+  {% if buyers %}
+    <table>
+      <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Mobile</th>
+        <th>Buyer Type</th>
+        <th>Actions</th>
+      </tr>
+      {% for b in buyers %}
+      <tr>
+        <td>{{ b.username }}</td>
+        <td>{{ b.email }}</td>
+        <td>{{ b.mobile }}</td>
+        <td>{{ b.buyer_type or 'N/A' }}</td>
+        <td>
+          <form action="{{ url_for('admin_delete_user', username=b.username) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this user?');">
+            <button type="submit" style="color:red;">🗑️ Delete</button>
+          </form>
+          <form action="{{ url_for('admin_edit_user', username=b.username) }}" method="GET" style="display:inline;">
+            <button type="submit">✏️ Edit</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>No buyers found.</p>
+  {% endif %}
+</div>
+
+<!-- 🛒 Sellers List -->
+<div class="section">
+    <h3 class="subtitle">🏪 Sellers</h3>
+    {% if sellers %}
+        <table>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Balance</th>
+                <th>Action</th>
+            </tr>
+            {% for s in sellers %}
+                <tr>
+                    <td>{{ s.username }}</td>
+                    <td>{{ s.email }}</td>
+                    <td>{{ s.mobile }}</td>
+                    <td>₹{{ s.balance or 0 }}</td>
+                    <td>
+                        <form action="{{ url_for('admin_delete_user', username=s.username) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete {{ s.username }}?');">
+                            <button type="submit" style="color:red;">🗑️ Delete</button>
+                        </form>
+                        <form action="{{ url_for('admin_edit_user', username=s.username) }}" method="GET" style="display:inline;">
+            <button type="submit">✏️ Edit</button>
+          </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No sellers found.</p>
+    {% endif %}
+</div>
+
+    <!-- 💰 Transactions -->
+    <div class="section">
+        <h2>📊 Transactions Overview</h2>
+        <BUTTon><a href="{{ url_for('admin_track_orders') }}" style="margin-left:20px;">🔍 Track Orders</a></BUTTon>
+
+        <h3 class="subtitle">💰 Transactions</h3>
+        {% if transactions %}
+            <table>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Buyer</th>
+                    <th>Seller</th>
+                    <th>Title</th>
+                    <th>Qty</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                </tr>
+                {% for t in transactions %}
+                    <tr>
+                        <td>{{ t.order_id or t.donation_id }}</td>
+                        <td>{{ t.buyer }}</td>
+                        <td>{{ t.seller }}</td>
+                        <td>{{ t.title }}</td>
+                        <td>{{ t.quantity }} kg</td>
+                        <td>₹{{ t.price or "N/A" }}</td>
+                        <td>{{ t.ordered_at or t.order_time }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No transactions yet.</p>
+        {% endif %}
+    </div>
+    <div class="section">
+    <h3 class="subtitle">♻️ Biogas Resale Transactions</h3>
+    {% if biogas_transactions %}
+        <table>
+            <tr>
+                <th>Donation ID</th>
+                <th>Buyer</th>
+                <th>Seller</th>
+                <th>Title</th>
+                <th>Qty</th>
+                <th>Biogas Price (50%)</th>
+                <th>Date</th>
+            </tr>
+            {% for t in biogas_transactions %}
+                <tr>
+                    <td>{{ t.order_id or t.donation_id }}</td>
+                    <td>{{ t.buyer }}</td>
+                    <td>{{ t.seller }}</td>
+                    <td>{{ t.title }}</td>
+                    <td>{{ t.quantity }} kg</td>
+                    <td>
+                        ₹{% if t.price %}{{ "%.2f"|format(t.price * 0.5) }}{% else %}N/A{% endif %}
+                    </td>
+                    <td>{{ t.ordered_at or t.order_time }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No biogas transactions yet.</p>
+    {% endif %}
+</div>
+
+</body>
+</html>

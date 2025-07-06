@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Post Donation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            padding: 20px;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        input[type="text"],
+        input[type="file"],
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            resize: vertical;
+        }
+        input[readonly] {
+            background-color: #f0f0f0;
+            cursor: not-allowed;
+        }
+        button[type="submit"] {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        button[type="submit"]:hover {
+            background-color: var(--secondary-hover);
+        }
+        h2 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 24px;
+        }
+        h3 {
+            color: var(--primary-color);
+            margin-top: 40px;
+            text-align: center;
+        }
+        #map_frame {
+            display: block;
+            margin: 20px auto 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
+    <script>
+        function initAutocomplete() {
+            const input = document.getElementById('location');
+            const autocomplete = new google.maps.places.Autocomplete(input);
+
+            autocomplete.addListener('place_changed', function () {
+                const place = autocomplete.getPlace();
+                if (!place.geometry) return;
+
+                document.getElementById('restaurant_name').value = place.name || "";
+                document.getElementById('restaurant_address').value = place.formatted_address || "";
+                document.getElementById('map_frame').src =
+  `https://www.google.com/maps/embed/v1/place?key=AIzaSyDQJr2IM1ETqsXNzF5iIdbJ72zd5lN8rgE&q=${encodeURIComponent(place.formatted_address)}`;
+
+            });
+        }
+    </script>
+</head>
+<body onload="initAutocomplete()">
+    <h2>Donate Food</h2>
+    <form method="POST" action="/donate" enctype="multipart/form-data">
+        <label>Title:</label><br>
+        <input type="text" name="title" required><br><br>
+
+        <label>Location:</label><br>
+        <input type="text" name="location" id="location" required><br><br>
+
+        <label>Restaurant Name:</label><br>
+        <input type="text" name="restaurant_name" id="restaurant_name" readonly><br><br>
+
+        <label>Restaurant Address:</label><br>
+        <input type="text" name="restaurant_address" id="restaurant_address" readonly><br><br>
+
+        <label>Description:</label><br>
+        <textarea name="description" rows="4" required></textarea><br><br>
+
+        <label>Image:</label><br>
+        <input type="file" name="image" accept="image/*" required><br><br>
+        
+
+        <button type="submit">Post Donation</button>
+    </form>
+
+    <h3>Map Preview</h3>
+    <iframe id="map_frame" width="400" height="300" style="border:0;" allowfullscreen loading="lazy"></iframe>
+</body>
+</html>

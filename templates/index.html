@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>GrubSaver - Reducing Food Waste</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">
+          <div class="navbar-brand">
+            <a href="/">Grub<span>Saver</span></a>
+          </div>
+      
+           <nav class="navbar-menu" id="navbarMenu">
+            <ul>
+              <li><a href="/" class="active">Home</a></li>
+              <li><a href="{{ url_for('how_its_work') }}">How it Works</a></li>
+             
+              <!-- <li><a href="/reviews">Feedback</a></li> -->
+              <li><a href="contact">Contact Us</a></li>
+              <li><a href="{{ url_for('about') }}">About Us</a></li>
+              
+             <li> <a href="{{ url_for('login') }}" class="btn-login">Login</a></li>
+              <li><a href="{{ url_for('register') }}" class="btn-register">Register</a></li>
+          </div>
+            </ul>
+          </nav>
+      
+          <!-- Hamburger toggle -->
+          <div class="navbar-toggle" id="navbarToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </header>
+
+
+    <section class="hero">
+      <div class="hero-overlay"></div>
+      <div class="container hero-content">
+        <h1>Using Food Waste as a Consumable Resource</h1>
+        <p>
+          Transforming Food Waste into a Sustainable Future – Join us in reducing waste and redistributing surplus food to those in need. Together, we can make a difference!
+        </p>
+        <!-- <div class="hero-buttons">
+          <a href="about.html" class="btn-secondary">Learn More</a>
+        </div> -->
+      </div>
+      <div class="hero-image">
+        <img src="https://static.vecteezy.com/system/resources/thumbnails/043/028/673/small_2x/reduce-food-waste-poster-man-throwing-leftovers-in-compost-bin-illustration-of-flat-character-and-planet-earth-reuse-garbage-icons-sustainable-eating-composition-ecology-awareness-vector.jpg" alt="Reduce Food Waste" style="width: 100%; max-width: 500px; border-radius: 10px;" />
+      </div>
+    </section>
+    <section class="stats">
+      <div class="container">
+        <h2>Our Impact</h2>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-icon">
+              <i class="icon-apple"></i>
+            </div>
+            <h3>15.2k</h3>
+            <p>Tons of Food Saved</p>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon">
+              <i class="icon-leaf"></i>
+            </div>
+            <h3>8.7k</h3>
+            <p>CO2 Emissions Reduced</p>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon">
+              <i class="icon-droplet"></i>
+            </div>
+            <h3>25M</h3>
+            <p>Liters of Water Saved</p>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon">
+              <i class="icon-trending-up"></i>
+            </div>
+            <h3>5.4k</h3>
+            <p>Active Users</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="how-it-works">
+      <div class="container">
+        <div class="section-header">
+          <h2>How GrubSaver Works</h2>
+          <p>Our simple process connects those with excess food to those who can use it, creating a more sustainable food system for everyone.</p>
+        </div>
+        <div class="steps-grid">
+          <div class="step-item">
+            <div class="step-icon">
+              <i class="icon-clock"></i>
+            </div>
+            <h3>User Registration & Login</h3>
+            <p>New users sign up as either <strong>Buyer</strong> (NGO/Biogas/Individual) or <strong>Seller</strong> (Restaurant/Donor).</p>
+          </div>
+          <div class="step-item">
+            <div class="step-icon">
+              <i class="icon-message-square"></i>
+            </div>
+            <h3>Post Food</h3>
+            <p>Sellers upload food details — name, type, quantity, image, and location — to make it available for request.</p>
+          </div>
+          <div class="step-item">
+            <div class="step-icon">
+              <i class="icon-shopping-bag"></i>
+            </div>
+            <h3>Browse & Order</h3>
+           <p>Buyers explore listed food based on location and availability, then place an order request.</p>
+          </div>
+          <div class="step-item">
+            <div class="step-icon">
+              <i class="icon-truck"></i>
+            </div>
+            <h3>Complete Transaction</h3>
+            <p>Food gets a second life instead of going to waste, and feedback builds trust in our community.</p>
+          </div>
+        </div>
+        <div class="section-cta">
+          <a href="/register" class="btn-primary">Get Started Today</a>
+        </div>
+      </div>
+    </section>
+  
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-about">
+            <h2>Grub<span>Saver</span></h2>
+            <p>Reducing food waste, one connection at a time. Join our mission to create a more sustainable food system.</p>
+            <div class="social-links">
+              <a href="#"><i class="icon-facebook"></i></a>
+              <a href="#"><i class="icon-twitter"></i></a>
+              <a href="#"><i class="icon-instagram"></i></a>
+              <a href="#"><i class="icon-linkedin"></i></a>
+            </div>
+          </div>
+          <div class="footer-links">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/postfoodwaste">Post Food Waste</a></li>
+              <li><a href="/findbuyers">Find Buyers</a></li>
+              <li><a href="/howitworks">How It Works</a></li>
+              <li><a href="./about us.html">About Us</a></li>
+            </ul>
+          </div>
+          <div class="footer-contact">
+            <h3>Contact Us</h3>
+            <ul>
+              <li><a href="https://mgmcen.ac.in/"><i class="icon-map-pin"></i>MGM's College of Engineering, Nanded</li></a>
+              <li><i class="icon-phone"></i>02462 2022999</li>
+              <li><i class="gmail"></i><a href="mailto:mgmcen@mgmcen.ac.in" target="_blank">mgmcen@mgmcen.ac.in</a></li>
+            </ul>
+          </div>
+          <div class="footer-newsletter">
+            <h3>Newsletter</h3>
+            <p>Stay updated with our latest initiatives and news.</p>
+            <form action="/subscribe" method="POST">
+              <input type="email" name="email" placeholder="Your email address" required>
+              <button type="submit">Subscribe</button>
+            </form>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; <span id="current-year"></span> GrubSaver | All Rights Reserved</p>
+        </div>
+      </div>
+    </footer>
+  
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+      document.getElementById('current-year').textContent = new Date().getFullYear();
+      document.addEventListener('DOMContentLoaded', function () {
+  const toggle = document.getElementById('navbarToggle');
+  const menu = document.getElementById('navbarMenu');
+
+  toggle.addEventListener('click', () => {
+    menu.classList.toggle('active');
+
+    // Hamburger icon animation (optional)
+    const spans = toggle.querySelectorAll('span');
+    if (menu.classList.contains('active')) {
+      spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+      spans[1].style.opacity = '0';
+      spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+    } else {
+      spans[0].style.transform = 'none';
+      spans[1].style.opacity = '1';
+      spans[2].style.transform = 'none';
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+      if (menu.classList.contains('active')) {
+        toggle.click();
+      }
+    }
+  });
+});
+
+    </script>
+    
+  </body>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class="flashes">
+      {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+  </html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Track All Orders - Admin</title>
+    <style>
+        
+ body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f5f5;
+    padding: 20px;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.order-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.order-card {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+}
+
+.order-card:hover {
+    transform: translateY(-4px);
+}
+
+.order-card h3 {
+    margin-bottom: 10px;
+    color: #222;
+    font-size: 18px;
+}
+
+.order-card p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #444;
+    line-height: 1.5;
+}
+
+.order-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 15px;
+    object-fit: cover;
+}
+
+.status {
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-size: 13px;
+    display: inline-block;
+}
+
+.delivered {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+.search-bar {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.search-bar input {
+    width: 50%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+    </style>
+</head>
+<body>
+
+    
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search by name, seller, buyer, or date...">
+    </div>
+
+    <div class="order-grid">
+        {% for order in orders %}
+            <div class="order-card">
+            <h3>{{ order.title }}</h3>
+            <p><strong>Order ID:</strong> {{ order.order_id or order.donation_id }}</p>
+            <p><strong>Buyer:</strong> {{ order.buyer }}</p>
+            <p><strong>Seller:</strong> {{ order.seller }}</p>
+            <p><strong>Status:</strong> 
+                <span class="status {{ 'delivered' if order.status == 'delivered' else 'pending' }}">
+                    {{ order.status.title() }}
+                </span>
+            </p>
+            <p><strong>Ordered At:</strong> {{ order.ordered_at or order.order_time }}</p>
+                 {% if order.image_path %}
+                    <img src="{{ order.image_path }}" alt="Donation Image">
+                {% endif %}
+            </div>
+        {% endfor %}
+  
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Biogas Resale - Expired Donations</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f4;
+            padding: 30px;
+            margin: 0;
+        }
+
+        .resale-heading {
+            text-align: center;
+            color: #28a745;
+            margin-bottom: 30px;
+        }
+
+        .donation-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .donation-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            width: 280px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: left;
+        }
+
+        .donation-card img {
+            max-width: 100%;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+
+        .donation-card p {
+            color: #333;
+            margin: 4px 0;
+            font-size: 0.9rem;
+        }
+
+        .tag-expired {
+            color: white;
+            background-color: #dc3545;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .order-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .order-btn:hover {
+            background-color: #218838;
+        }
+
+       
+    </style>
+</head>
+<body>
+    <h2 class="resale-heading">♻️ Biogas Resale - Expired Food Donations</h2>
+
+    {% if donations %}
+        <div class="donation-list">
+            {% for d in donations %}
+                <div class="donation-card">
+                    <h3>{{ d.title }}</h3>
+                    {% if d.image_path %}
+                        <img src="{{ d.image_path }}" alt="Food Image">
+                    {% endif %}
+                    <p><strong>Quantity (kg):</strong> {{ d.quantity }}</p>
+                    <p><strong>Restaurant:</strong> {{ d.restaurant_name }}</p>
+                    <p><strong>Address:</strong> {{ d.restaurant_address }}</p>
+                    <p><strong>Location:</strong> {{ d.location }}</p>
+                    <p><strong>Description:</strong> {{ d.description }}</p>
+                    <p><strong>Posted On:</strong> {{ d.created_at_str }}</p>
+                    
+                    <span class="tag-expired">Expired</span>
+                    <form action="{{ url_for('place_biogas_order', donation_id=d._id|string) }}" method="post" style="margin-top: 10px;">
+                        <button type="submit" class="order-btn">Claim for Biogas ♻️</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p style="text-align:center; font-size: 1.2rem; color: #555;">No expired donations yet.</p>
+    {% endif %}
+</body>
+</html>

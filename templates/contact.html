@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us - Waste Project</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+        url('https://images.unsplash.com/photo-1601315480297-7c2e631d5f67?auto=format&fit=crop&w=1500&q=80') no-repeat center center/cover;
+      color: white;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .contact-container {
+      background: rgba(0, 0, 0, 0.6);
+      max-width: 1000px;
+      width: 90%;
+      padding: 3rem;
+      border-radius: 15px;
+      display: flex;
+      justify-content: space-between;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-info {
+      flex: 1;
+    }
+
+    .contact-info h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #fff176;
+    }
+
+    .contact-info p {
+      font-size: 0.95rem;
+      color: #eeeeee;
+      line-height: 1.6;
+    }
+
+    .info-block {
+      margin-top: 2rem;
+    }
+
+    .info-block h4 {
+      font-size: 1rem;
+      margin: 0.5rem 0;
+      color: #aed581;
+    }
+
+    .form-box {
+      background: #ffffff;
+      padding: 2rem;
+      border-radius: 10px;
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .form-box h3 {
+      color: #2e7d32;
+      margin-bottom: 1.5rem;
+      font-size: 1.3rem;
+    }
+
+    .form-box input,
+    .form-box textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      resize: none;
+    }
+
+    .form-box button {
+      background-color: #8bc34a;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .form-box button:hover {
+      background-color: #689f38;
+    }
+
+    @media (max-width: 768px) {
+      .contact-container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .form-box, .contact-info {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="contact-container">
+    <div class="contact-info">
+      <h2>Contact Us</h2>
+      <p>
+        Have a question or want to support the food waste movement? Get in touch with us—we’d love to hear from NGOs, donors, volunteers, and anyone passionate about making a difference.
+      </p>
+
+      <div class="info-block">
+        <h4>📍 Address</h4>
+        <p>MGM College of Engineering, Nanded<br>431605, Maharashtra</p>
+
+        <h4>📞 Phone</h4>
+        <p>+91 98765 43210</p>
+
+        <h4>📧 Email</h4>
+        <p>wastehelp@gmail.com</p>
+      </div>
+    </div>
+
+    <div class="form-box">
+      <h3>Send Message</h3>
+      <form action="/contact" method="POST">
+  <input type="text" name="name" placeholder="Your Name" required />
+  <input type="email" name="email" placeholder="Your Email" required />
+  <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+  <button type="submit">Send Message</button>
+</form>
+
+    </div>
+  </div>
+
+</body>
+</html>
