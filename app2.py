@@ -45,8 +45,8 @@ app.config.update(
     MAIL_SERVER='smtp.gmail.com',
     MAIL_PORT=587,
     MAIL_USE_TLS=True,
-    MAIL_USERNAME='xyz@gmail.com',
-    MAIL_PASSWORD='app code'  # Use env vars instead in production!
+    MAIL_USERNAME='shrikrushnagandhewar@gmail.com',
+    MAIL_PASSWORD='ktnm ilby nmbk ewwz'  # Use env vars instead in production!
 )
 mail = Mail(app)
 
@@ -55,7 +55,11 @@ def send_sms(mobile, otp):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    response = make_response(return render_template('index.html'))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 
 
@@ -136,7 +140,11 @@ def register():
 
         return redirect('/verify')
 
-    return render_template('register.html')
+    response = make_response(return render_template('register.html'))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 @app.route('/verify', methods=['GET', 'POST'])
 def verify():
@@ -151,7 +159,11 @@ def verify():
             return redirect('/login')
         else:
             flash('❌ Incorrect OTP. Try again.')
-    return render_template('verify.html')
+    response = make_response(return render_template('verify.html'))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 from werkzeug.security import check_password_hash
 from flask import Flask, request, session, flash, redirect, render_template
@@ -192,33 +204,45 @@ def login():
 
         flash('❌ Invalid username or password.')
 
-    return render_template('login.html')
+    response = make_response(return render_template('login.html'))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 
 
 @app.route('/logout')
 def logout():
     session.clear()
-    return redirect('/login')
-
+    flash('Logged out successfully.')
+    return redirect('/')
 
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    response = make_response(return render_template('about.html'))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 # @app.route('/how_it_works')
 # def about():
-#     return render_template('how_it_works.html')
+#     response = make_response(return render_template('how_it_works.html'))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 @app.route('/seller')
 def seller_page():
     if session.get('logged_in') and session.get('user_type') == 'seller':
-        response = make_response(render_template('seller.html'))
-        response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
-        response.headers['Pragma'] = 'no-cache'
-        response.headers['Expires'] = '0'
-        return response
-    flash('Access denied. Please login.')
+        response = make_response(return render_template('seller.html'))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
+    flash('Access denied.')
     return redirect('/login')
 
 
@@ -229,7 +253,11 @@ def biogas_page():
         flash("Access denied. Please log in as a buyer.")
         return redirect('/login')
 
-    return render_template('biogas.html')
+    response = make_response(return render_template('biogas.html'))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 
 @app.route('/buyer')
@@ -244,37 +272,39 @@ from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
 import pytz
 import os
+import uuid
 
 
 
 import uuid  # already in your code
 
-from flask import make_response
-
 @app.route('/donate_form', methods=['GET', 'POST'])
 def donate_form():
     if 'logged_in' not in session or session.get('user_type') != 'seller':
-        return redirect('/login?error=login_required')
+        flash('Login as a seller to post donations.')
+        return redirect('/login')
 
     if request.method == 'POST':
         try:
-            title = request.form.get('title', '').strip()
-            price = float(request.form.get('price'))
-            quantity = float(request.form.get('quantity'))
-            location = request.form.get('location', '').strip()
-            restaurant_name = request.form.get('restaurant_name', '').strip()
-            restaurant_address = request.form.get('restaurant_address', '').strip()
-            description = request.form.get('description', '').strip()
+            title = request.form.get('title').strip()
+            price = float(request.form.get('price'))  # ✅ New price field
+            quantity = float(request.form.get('quantity'))  # Quantity field
+            location = request.form.get('location').strip()
+            restaurant_name = request.form.get('restaurant_name').strip()
+            restaurant_address = request.form.get('restaurant_address').strip()
+            description = request.form.get('description').strip()
             expire_after = int(request.form.get('expire_after'))
 
             image_file = request.files.get('image')
             if not image_file or not allowed_file(image_file.filename):
-                return redirect('/donate_form?submitted=invalid_image')
+                flash('❌ Invalid image file.')
+                return redirect('/donate_form')
 
             filename = f"{uuid.uuid4().hex}_{secure_filename(image_file.filename)}"
             image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             image_file.save(image_path)
 
+            # Get user info
             username = session['username']
             user_record = users.find_one({'username': username})
             mobile_number = user_record.get('mobile', 'N/A')
@@ -285,13 +315,14 @@ def donate_form():
             created_at_ist = utc_now.replace(tzinfo=pytz.utc).astimezone(ist_timezone)
             expiry_time_ist = created_at_ist + timedelta(hours=expire_after)
 
-            donation_id = f"DN{uuid.uuid4().hex[:8].upper()}"
+            # ✅ Generate unique donation_id
+            donation_id = f"DN{uuid.uuid4().hex[:8].upper()}"  # example: DN7F9A12C4
 
             donation = {
-                "donation_id": donation_id,
+                "donation_id": donation_id,  # ✅ unique transaction ID
                 "title": title,
-                "quantity": quantity,
-                "price": price,
+                "quantity": quantity,\
+                "price": price,  # ✅ Storing price
                 "location": location,
                 "restaurant_name": restaurant_name,
                 "restaurant_address": restaurant_address,
@@ -301,18 +332,20 @@ def donate_form():
                 "posted_mobile": mobile_number,
                 "created_at": created_at_ist,
                 "expiry_time": expiry_time_ist,
+                
                 "expired": False
             }
 
             donations.insert_one(donation)
-            return redirect('/donate_form?submitted=yes')
+            flash(f"✅ Donation posted successfully! ID: {donation_id}")
+            return redirect('/seller')
 
         except Exception as e:
             print(f"[Error] Donation form: {e}")
-            return redirect('/donate_form?submitted=error')
+            flash("❌ Something went wrong. Please try again.")
+            return redirect('/donate_form')
 
-    # GET Request: show empty form and prevent back cache
-    response = make_response(render_template('donate_form.html'))
+    response = make_response(return render_template('donate_form.html'))
     response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
     response.headers['Pragma'] = 'no-cache'
     response.headers['Expires'] = '0'
@@ -334,7 +367,11 @@ def my_orders():
         return redirect('/login')
 
     my_orders = list(orders.find({'buyer': session['username']}))
-    return render_template('my_orders.html', orders=my_orders)
+    response = make_response(return render_template('my_orders.html', orders=my_orders))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 @app.route('/seller_orders')
 def seller_orders():
@@ -346,7 +383,11 @@ def seller_orders():
         'seller': session['username'],
         'status': {'$ne': 'delivered'}  # Exclude delivered
     }))
-    return render_template('seller_orders.html', orders=my_sales)
+    response = make_response(return render_template('seller_orders.html', orders=my_sales))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 
 
@@ -379,7 +420,11 @@ def my_donations():
 
     all_donations = active_donations + ordered_donations
 
-    return render_template('my_donations.html', donations=all_donations)
+    response = make_response(return render_template('my_donations.html', donations=all_donations))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 
 @app.route('/donate_search', methods=['GET', 'POST'])
@@ -408,7 +453,11 @@ def donate_search():
         d['image_path'] = url_for('static', filename=f'uploads/{d["image_filename"]}') if 'image_filename' in d else None
         d['created_at_str'] = d.get('created_at', 'Unknown')
 
-    return render_template('donate_search.html', donations=all_donations, search_term=search_term)
+    response = make_response(return render_template('donate_search.html', donations=all_donations, search_term=search_term))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 
 
@@ -552,7 +601,11 @@ def place_order_view(donation_id):
         mail.send(msg)
 
         # Show receipt page to buyer
-        return render_template('receipt.html', order=order)
+        response = make_response(return render_template('receipt.html', order=order))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
     except Exception as e:
         print(f"[Error] place_order_view: {e}")
@@ -651,7 +704,11 @@ def biogas_orders_view():
         if 'image_filename' in order:
             order['image_path'] = url_for('static', filename=f'uploads/{order["image_filename"]}')
 
-    return render_template('biogas_orders.html', orders=seller_orders)
+    response = make_response(return render_template('biogas_orders.html', orders=seller_orders))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 @app.route('/biogas_receipt')
 def biogas_receipt():
@@ -670,7 +727,11 @@ def biogas_receipt():
     if 'image_filename' in order:
         order['image_path'] = url_for('static', filename=f'uploads/{order["image_filename"]}')
 
-    return render_template('biogas_receipt.html', order=order)
+    response = make_response(return render_template('biogas_receipt.html', order=order))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 
 
@@ -686,7 +747,11 @@ def receipt():
         return redirect('/buyer')
 
     order['image_path'] = url_for('static', filename=f'uploads/{order["image_filename"]}') if 'image_filename' in order else None
-    return render_template('receipt.html', order=order)
+    response = make_response(return render_template('receipt.html', order=order))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 
 @app.route('/donate-results', methods=['POST'])
@@ -706,7 +771,11 @@ def donate_results():
     for d in matched_donations:
         d['image_path'] = f"uploads/{d['image_filename']}" if 'image_filename' in d else None
 
-    return render_template('donate_search.html', cards=matched_donations)
+    response = make_response(return render_template('donate_search.html', cards=matched_donations))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 @app.route('/biogas_resale')
 def biogas_resale():
     expired_donations = list(donations.find({'expired': True}))
@@ -715,7 +784,11 @@ def biogas_resale():
         d['image_path'] = url_for('static', filename=f'uploads/{d["image_filename"]}')
         d['created_at_str'] = d.get('created_at', 'Unknown')
 
-    return render_template('biogas_resale.html', donations=expired_donations)
+    response = make_response(return render_template('biogas_resale.html', donations=expired_donations))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 
 @app.route('/delete_donation/<donation_id>', methods=['POST'])
@@ -781,8 +854,12 @@ def admin_dashboard():
     # Get newsletter subscribers
     subs = list(subscriptions.find({}))
 
-    return render_template("admin_dashboard.html",
-                           buyers=users.find({'user_type': 'buyer'}),
+    response = make_response(return render_template("admin_dashboard.html",
+                           buyers=users.find({'user_type': 'buyer'}))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response,
                            sellers=users.find({'user_type': 'seller'}),
                            transactions=transactions,
                             biogas_transactions=biogas_orders_list,
@@ -869,7 +946,11 @@ def admin_edit_user(username):
         flash("✅ User information updated and email notification sent.")
         return redirect('/admin/dashboard')
 
-    return render_template('admin_edit_user.html', user=user)
+    response = make_response(return render_template('admin_edit_user.html', user=user))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 
 @app.route('/admin/track_orders')
@@ -882,7 +963,11 @@ def admin_track_orders():
     for order in all_orders:
         order['image_path'] = url_for('static', filename=f'uploads/{order["image_filename"]}') if 'image_filename' in order else None
         order['status'] = order.get('status', 'pending')
-    return render_template('admin_track_orders.html', orders=all_orders)
+    response = make_response(return render_template('admin_track_orders.html', orders=all_orders))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 
 from bson.objectid import ObjectId
@@ -947,9 +1032,17 @@ def verify_delivery_otp():
             flash('✅ Order marked as delivered!')
             return redirect(url_for('seller_orders'))
         else:
-            return render_template('verify_delivery_otp.html', error="Incorrect OTP. Please try again.")
+            response = make_response(render_template('verify_delivery_otp.html', error="Incorrect OTP. Please try again."))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
-    return render_template('verify_delivery_otp.html')
+    response = make_response(render_template('verify_delivery_otp.html'))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 
 
@@ -985,16 +1078,28 @@ def contact():
         flash('✅ Message sent successfully!')
         return redirect('/contact')
 
-    return render_template('contact.html')  # your contact page
+    response = make_response(render_template('contact.html'))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response  # your contact page
 
 
 @app.route('/howitworks')
 def how_it_works():
-    return render_template('about us.html')
+    response = make_response(render_template('how_its_work.html'))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
-@app.route('/how_its_work')
-def how_its_work():
-    return render_template('how_its_work.html')
+# @app.route('/how_its_work')
+# def how_its_work():
+#     response = make_response(return render_template('how_its_work.html'))
+#     response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+#     response.headers['Pragma'] = 'no-cache'
+#     response.headers['Expires'] = '0'
+#     return response
 
 
 if __name__ == '__main__':

@@ -47,56 +47,74 @@
         button:hover {
             background-color: #218838;
         }
+
+        /* Autocomplete list */
+        ul.suggestions {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border: 1px solid #ccc;
+            max-height: 150px;
+            overflow-y: auto;
+            position: absolute;
+            background: white;
+            width: calc(100% - 22px);
+            display: none;
+            z-index: 1000;
+        }
+
+        ul.suggestions li {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        ul.suggestions li:hover {
+            background-color: #f1f1f1;
+        }
     </style>
 </head>
 <body>
-    <h2 style="text-align:center;">Post Food</h2>
-  <form action="{{ url_for('donate_form') }}" method="POST" enctype="multipart/form-data">
+<h2 style="text-align:center;">Post Food</h2>
 
+<form action="{{ url_for('donate_form') }}" method="POST" enctype="multipart/form-data">
 
-        <label for="title">Title:</label>
-        <input type="text" name="title" required>
+    <label for="title">Title:</label>
+    <input type="text" name="title" required>
 
-        <label for="quantity">Quantity (in kg):</label>
-        <input type="number" name="quantity" step="0.01" min="0.01" placeholder="e.g. 2.5" required>
-        <label for="price">Price (₹):</label>
-<input type="number" name="price" step="0.01" min="0" required>
+    <label for="quantity">Quantity (in kg):</label>
+    <input type="number" name="quantity" step="0.01" min="0.01" placeholder="e.g. 2.5" required>
 
+    <label for="price">Price (₹):</label>
+    <input type="number" name="price" step="0.01" min="0" required>
 
-        <label for="location">Location:</label>
-<input type="text" name="location" id="location" required>
-<ul id="location-suggestions" style="
-    list-style:none;
-    padding:0;
-    margin:0;
-    border:1px solid #ccc;
-    max-height:150px;
-    overflow-y:auto;
-    position:absolute;
-    background:white;
-    width:calc(100% - 22px);
-    display:none;
-    z-index:1000;"></ul>
+    <label for="location">Location:</label>
+    <input type="text" name="location" id="location" required>
+    <ul id="location-suggestions" class="suggestions"></ul>
 
-        <label for="restaurant_name">Restaurant Name:</label>
-        <input type="text" name="restaurant_name" required>
+    <label for="restaurant_name">Restaurant Name:</label>
+    <input type="text" name="restaurant_name" required>
 
-        <label for="restaurant_address">Restaurant Address:</label>
-        <div class="autocomplete-wrapper">
-            <input type="text" name="restaurant_address" id="restaurant_address" required autocomplete="off">
-            <ul id="address-suggestions" class="suggestions"></ul>
-        </div>
+    <label for="restaurant_address">Restaurant Address:</label>
+    <div class="autocomplete-wrapper">
+        <input type="text" name="restaurant_address" id="restaurant_address" required autocomplete="off">
+        <ul id="address-suggestions" class="suggestions"></ul>
+    </div>
 
-        <label for="description">Description:</label>
-        <textarea name="description" rows="4" required></textarea>
+    <label for="description">Description:</label>
+    <textarea name="description" rows="4" required></textarea>
 
-        <label for="image">Image:</label>
-        <input type="file" name="image" accept="image/*" required>
-<label>Expires After (in hours):</label><br>
-<input type="number" name="expire_after" min="1" placeholder="e.g. 6" required><br><br>
+    <label for="image">Image:</label>
+    <input type="file" name="image" accept="image/*" required>
 
-        <button type="submit">Submit</button>
-        <script> function setupAutocomplete(inputId, suggestionsId) {
+    <label>Expires After (in hours):</label>
+    <input type="number" name="expire_after" min="1" placeholder="e.g. 6" required><br><br>
+
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+  // Photon Autocomplete
+  function setupAutocomplete(inputId, suggestionsId) {
     const input = document.getElementById(inputId);
     const suggestionsBox = document.getElementById(suggestionsId);
 
@@ -116,13 +134,9 @@
           }
           data.features.forEach(feature => {
             const li = document.createElement('li');
-            // Use display_name for fuller address or fallback to name + city
-            let text = feature.properties.name;
+            let text = feature.properties.name || '';
             if (feature.properties.city) {
               text += ', ' + feature.properties.city;
-            }
-            if (!text || text.trim() === '') {
-              text = feature.properties.display_name || '';
             }
             li.textContent = text;
             li.addEventListener('click', () => {
@@ -145,9 +159,29 @@
     });
   }
 
-  // Initialize autocomplete for both fields
   setupAutocomplete('location', 'location-suggestions');
-  setupAutocomplete('restaurant_address', 'address-suggestions');</script>
-    </form>
+  setupAutocomplete('restaurant_address', 'address-suggestions');
+
+  // Redirect to /seller on back button
+  window.addEventListener("pageshow", function (event) {
+    if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
+      window.location.href = "/seller";
+    }
+  });
+
+  // Pop-up alerts
+  document.addEventListener("DOMContentLoaded", function () {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("submitted") === "yes") {
+      alert("✅ Donation submitted successfully!");
+      history.replaceState(null, '', '/donate_form');
+    } else if (params.get("submitted") === "invalid_image") {
+      alert("❌ Invalid image. Please upload a valid file.");
+    } else if (params.get("submitted") === "error") {
+      alert("❌ An error occurred. Please try again.");
+    }
+  });
+</script>
+
 </body>
 </html>
