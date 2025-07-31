@@ -25,7 +25,9 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-client = MongoClient("mongodb://localhost:27017")
+mongo_uri = os.environ.get("MONGO_URI")
+
+client = MongoClient(mongo_uri)
 db = client['grubsaver_db']
 users = db['users']
 waste_db = client["waste"]
@@ -998,4 +1000,4 @@ def how_its_work():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
